@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Cue Demo - Number Bond Interactive Guide</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .demo-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .demo-option {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .demo-option h3 {
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .demo-option p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .demo-button {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-button.active {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+        }
+        
+        .demo-preview {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .preview-title {
+            color: white;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* Override some styles for demo */
+        .number-bond-container {
+            background: rgba(15, 43, 78, 0.9) !important;
+            border: 2px solid #0066cc !important;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .instructions {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">Interactive Visual Cue Demo</h1>
+        
+        <div class="demo-options">
+            <div class="demo-option">
+                <h3>🖱️ Option 1: Finger Tap Animation</h3>
+                <p>An animated finger icon cycles through each number with a tapping motion, clearly indicating the sequence of clicks needed.</p>
+                <button class="demo-button" onclick="setVisualCue('finger')" id="finger-btn">Try Finger Tap</button>
+            </div>
+            
+            <div class="demo-option">
+                <h3>✨ Option 2: Sequential Pulsing</h3>
+                <p>Each number pulses with a subtle beating effect in sequence, creating an elegant visual rhythm that guides user attention.</p>
+                <button class="demo-button active" onclick="setVisualCue('pulse')" id="pulse-btn">Try Pulsing Effect</button>
+            </div>
+        </div>
+        
+        <div class="demo-preview">
+            <div class="preview-title">Live Preview</div>
+            <div class="instructions">Click the numbers in the number bond to see the interactive visual cues in action!</div>
+            
+            <!-- Number Bond Demo -->
+            <div class="number-bond-container highlighted">
+                <div class="number-bond-whole orange" onclick="handleNumberClick(5)">5</div>
+                <div class="number-bond-parts">
+                    <div class="number-bond-part blue" onclick="handleNumberClick(3)">3</div>
+                    <div class="number-bond-part purple" onclick="handleNumberClick(2)">2</div>
+                </div>
+                
+                <!-- SVG connecting lines with draw-in animation and labels -->
+        <svg class="connection-lines" viewBox="0 0 100 100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;">
+            <!-- Line from whole to first part -->
+            <line x1="calc(25% + 52px)" y1="50%" x2="calc(75% - 40px)" y2="calc(50% - 50px)" 
+                  stroke="var(--color-gray-dark)" stroke-width="2" 
+                  stroke-dasharray="200" stroke-dashoffset="200" 
+                  class="connection-line" />
+            
+            <!-- Line from whole to second part -->
+            <line x1="calc(25% + 52px)" y1="50%" x2="calc(75% - 40px)" y2="calc(50% + 50px)" 
+                  stroke="var(--color-gray-dark)" stroke-width="2" 
+                  stroke-dasharray="200" stroke-dashoffset="200" 
+                  class="connection-line" />
+            
+            <!-- Mathematical relationship labels -->
+            <text x="calc(50% - 10px)" y="calc(50% - 25px)" 
+                  fill="var(--color-gray-dark)" font-size="14px" font-weight="bold" 
+                  text-anchor="middle" class="relationship-label">+</text>
+            
+            <text x="calc(50% - 10px)" y="calc(50% + 35px)" 
+                  fill="var(--color-gray-dark)" font-size="14px" font-weight="bold" 
+                  text-anchor="middle" class="relationship-label">=</text>
+        </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'pulse';
+        let visualCueInterval;
+        
+        function setVisualCue(mode) {
+            currentMode = mode;
+            
+            // Update button states
+            document.getElementById('finger-btn').classList.toggle('active', mode === 'finger');
+            document.getElementById('pulse-btn').classList.toggle('active', mode === 'pulse');
+            
+            // Clear existing animations
+            clearInterval(visualCueInterval);
+            document.querySelectorAll('.finger-tap-guide').forEach(guide => guide.remove());
+            document.querySelectorAll('.number-bond-whole, .number-bond-part').forEach(el => {
+                el.classList.remove('pulse-guide');
+            });
+            
+            // Start new animation
+            if (mode === 'finger') {
+                startFingerTapDemo();
+            } else if (mode === 'pulse') {
+                startPulseDemo();
+            }
+        }
+        
+        function startFingerTapDemo() {
+            const numbers = [
+                { element: '.number-bond-whole', delay: 0 },
+                { element: '.number-bond-part.blue', delay: 2000 },
+                { element: '.number-bond-part.purple', delay: 4000 }
+            ];
+            
+            let currentIndex = 0;
+            
+            const showFingerTap = () => {
+                // Remove existing guides
+                document.querySelectorAll('.finger-tap-guide').forEach(guide => guide.remove());
+                
+                const targetElement = document.querySelector(numbers[currentIndex].element);
+                if (targetElement) {
+                    const guide = createFingerTapGuide();
+                    positionFingerTap(guide, targetElement);
+                    document.body.appendChild(guide);
+                    
+                    setTimeout(() => guide.classList.add('active'), 50);
+                    setTimeout(() => {
+                        if (guide.parentNode) guide.remove();
+                    }, 1500);
+                }
+                
+                currentIndex = (currentIndex + 1) % numbers.length;
+            };
+            
+            showFingerTap();
+            visualCueInterval = setInterval(showFingerTap, 6000);
+        }
+        
+        function startPulseDemo() {
+            const elements = [
+                '.number-bond-whole',
+                '.number-bond-part.blue', 
+                '.number-bond-part.purple'
+            ];
+            
+            let currentIndex = 0;
+            
+            const showPulse = () => {
+                // Remove pulse from all elements
+                elements.forEach(selector => {
+                    const element = document.querySelector(selector);
+                    if (element) element.classList.remove('pulse-guide');
+                });
+                
+                // Add pulse to current element
+                const currentElement = document.querySelector(elements[currentIndex]);
+                if (currentElement) {
+                    currentElement.classList.add('pulse-guide');
+                    
+                    setTimeout(() => {
+                        if (currentElement) currentElement.classList.remove('pulse-guide');
+                    }, 1500);
+                }
+                
+                currentIndex = (currentIndex + 1) % elements.length;
+            };
+            
+            showPulse();
+            visualCueInterval = setInterval(showPulse, 2000);
+        }
+        
+        function createFingerTapGuide() {
+            const guide = document.createElement('div');
+            guide.className = 'finger-tap-guide';
+            guide.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 1C13 0.447715 12.5523 0 12 0C11.4477 0 11 0.447715 11 1V7H9C8.44772 7 8 7.44772 8 8V12C8 12.5523 8.44772 13 9 13H11V19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19V13H15C15.5523 13 16 12.5523 16 12V8C16 7.44772 15.5523 7 15 7H13V1Z" fill="#FFD700"/>
+                    <circle cx="12" cy="22" r="2" fill="#FFD700"/>
+                </svg>
+            `;
+            return guide;
+        }
+        
+        function positionFingerTap(guide, targetElement) {
+            const rect = targetElement.getBoundingClientRect();
+            guide.style.left = `${rect.left + rect.width/2 - 20}px`;
+            guide.style.top = `${rect.top - 50}px`;
+            guide.style.position = 'fixed';
+        }
+        
+        function handleNumberClick(number) {
+            console.log(`Clicked number: ${number}`);
+            // Add a brief highlight effect
+            const clickedElement = event.target;
+            clickedElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                clickedElement.style.transform = '';
+            }, 200);
+        }
+        
+        // Start with pulse demo
+        setVisualCue('pulse');
+    </script>
+</body>
+</html>

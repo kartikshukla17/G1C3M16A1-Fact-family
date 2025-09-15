@@ -1,0 +1,991 @@
+/* ===== GLOBAL STYLES & CSS VARIABLES ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 50px;
+    background: url('../assets/Background.png') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+/* ===== CSS VARIABLES ===== */
+:root {
+    /* Layout Dimensions - Based on 1920x1080 design */
+    --header-height: 162px; /* 15% of 1080px = 162px */
+    --footer-height: 162px; /* 15% of 1080px = 162px */
+    --main-height: 648px; /* 60% of 1080px = 648px */
+    --instruction-height: 108px; /* 10% of 1080px = 108px */
+    /* Panel widths are now defined directly in grid-template-columns */
+    --node-size: 90px;
+    
+    /* Spacing and Padding */
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 20px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    /* Colors - Following Design System Rules */
+    --color-correct-base: #219150;
+    --color-correct-light: #58D98B;
+    --color-correct-dark: #0d803d;
+    
+    --color-wrong-base: #FF6F61;
+    --color-wrong-light: #FF8F83;
+    --color-wrong-dark: #D4574C;
+    
+    --color-orange-base: #FF7F3F;
+    --color-orange-light: #FF9C6A;
+    --color-orange-dark: #E56529;
+    
+    --color-blue-base: #3498DB;
+    --color-blue-light: #5EB2E7;
+    --color-blue-dark: #2576B6;
+    
+    --color-pink-base: #FF4D6D;
+    --color-pink-light: #FF738C;
+    --color-pink-dark: #D83655;
+    
+    --color-purple-base: #9B59B6;
+    --color-purple-light: #B77FD0;
+    --color-purple-dark: #7E3E99;
+    
+    --color-aqua-base: #1ABC9C;
+    --color-aqua-light: #48D1B6;
+    --color-aqua-dark: #139A82;
+    
+    --color-rose-base: #E84393;
+    --color-rose-light: #EF6AA9;
+    --color-rose-dark: #B8306C;
+    
+    --color-yellow-base: #FF9F1A;
+    --color-yellow-light: #FFB84D;
+    --color-yellow-dark: #D68300;
+    
+    --color-gold-base: #F1C40F;
+    --color-gold-light: #F5D54D;
+    --color-gold-dark: #BFA70B;
+    
+    --color-sand-base: #D2B48C;
+    --color-sand-light: #DEC3A3;
+    --color-sand-dark: #B9966D;
+    
+    --color-white-base: #FFFFFF;
+    --color-white-light: #FFFFFF;
+    --color-white-dark: #D9D9D9;
+    
+    /* Legacy colors for compatibility */
+    --primary-orange: #FF8C00;
+    --primary-white: #FFFFFF;
+    --accent-brown: #8B4513;
+    --text-dark: #2C3E50;
+    --background-light: #F5F5DC;
+    --wall-color: #E8E8E8;
+    --wall-border: #D3D3D3;
+    --background-gradient-start: #87CEEB;
+    --background-gradient-end: #98FB98;
+    
+    /* Effects */
+    --shadow: 0 4px 8px rgba(0,0,0,0.3);
+    --shadow-light: 0 2px 4px rgba(0,0,0,0.2);
+    --transition: all 0.3s ease;
+    
+    /* Responsive scaling */
+    --scaleFactor: 1;
+    --base-width: 1920px;
+    --base-height: 1080px;
+}
+
+/* ===== RESPONSIVE CONTAINER ===== */
+.responsive-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    background: transparent;
+}
+
+.responsive-wrapper {
+    width: var(--base-width);
+    height: 1080px; /* Fixed height of 1080px */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: top left;
+    transform: scale(var(--scaleFactor)) translate(-50%, -50%);
+    background: transparent;
+    /* MODIFIED: Remove rounded edges from bottom of container */
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow);
+    border: none; /* Remove any border from wrapper */
+}
+
+/* ===== MAIN LAYOUT GRID ===== */
+.responsive-wrapper {
+    display: grid;
+    grid-template-rows: var(--header-height) var(--main-height) var(--instruction-height) var(--footer-height);
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+/* ===== HEADER LAYOUT ===== */
+.header {
+    grid-row: 1;
+    grid-column: 1;
+    height: var(--header-height);
+    background: transparent;
+    color: var(--primary-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--spacing-xl);
+    font-size: 32px;
+    font-weight: normal;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border: none; /* Removed orange border */
+}
+
+.header-instruction {
+    color: var(--primary-orange);
+    font-size: 64px;
+    font-weight: normal;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+/* ===== MAIN CONTENT LAYOUT ===== */
+.main-content {
+    grid-row: 2;
+    grid-column: 1;
+    height: var(--main-height);
+    background: transparent;
+    display: grid;
+    grid-template-columns: 1fr 1fr 500px; /* Addition, Subtraction, Feedback (500px fixed) */
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    align-items: start;
+}
+
+/* ===== FACT PANEL LAYOUT ===== */
+.fact-panel {
+    background: #0f2b4e;
+    border: 2px solid #0066cc;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    display: grid;
+    grid-template-rows: 20% 40% 40%; /* top 20%, mid 40%, bottom 40% */
+    grid-template-columns: 1fr;
+    gap: 4px;
+    box-shadow: var(--shadow-light);
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Glowing animation effect for fact panel when equation box is highlighted */
+.fact-panel.equation-highlighted {
+    background: rgba(15, 43, 78, 0.95); /* Slightly brighter background */
+    border: 2px solid var(--color-gold-base);
+    box-shadow: 
+        var(--shadow-light),
+        0 0 20px rgba(241, 196, 15, 0.4),
+        0 0 40px rgba(241, 196, 15, 0.2),
+        inset 0 0 30px rgba(241, 196, 15, 0.1);
+    animation: fact-panel-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes fact-panel-glow {
+    0% { 
+        border-color: var(--color-gold-base);
+        box-shadow: 
+            var(--shadow-light),
+            0 0 20px rgba(241, 196, 15, 0.4),
+            0 0 40px rgba(241, 196, 15, 0.2),
+            inset 0 0 30px rgba(241, 196, 15, 0.1);
+    }
+    50% { 
+        border-color: var(--color-gold-light);
+        box-shadow: 
+            var(--shadow-light),
+            0 0 30px rgba(241, 196, 15, 0.6),
+            0 0 60px rgba(241, 196, 15, 0.3),
+            inset 0 0 40px rgba(241, 196, 15, 0.15);
+    }
+    100% { 
+        border-color: var(--color-gold-base);
+        box-shadow: 
+            var(--shadow-light),
+            0 0 20px rgba(241, 196, 15, 0.4),
+            0 0 40px rgba(241, 196, 15, 0.2),
+            inset 0 0 30px rgba(241, 196, 15, 0.1);
+    }
+}
+
+.fact-panel-title {
+    color: var(--color-white-base);
+    font-size: 64px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    grid-row: 1; /* Top 20% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.equations-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr; /* Two equal rows for mid and bottom 40% each */
+    gap: var(--spacing-sm);
+    grid-row: 2 / 4; /* Spans mid 40% and bottom 40% */
+}
+
+.equation-row {
+    display: grid;
+    grid-template-columns: 60% 40%; /* 60% for equation text, 40% for box */
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.equation-text {
+    color: var(--color-white-base);
+    font-size: 100px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    letter-spacing: 8px; /* Double the space between characters */
+    text-align: right; /* Right align content */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.equation-number {
+    font-size: 100px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    letter-spacing: 4px; /* Double the space between characters */
+}
+
+.equation-number.pink { color: var(--color-pink-base); }
+.equation-number.orange { color: var(--color-orange-base); }
+.equation-number.blue { color: var(--color-blue-base); }
+.equation-number.purple { color: var(--color-purple-base); }
+
+.equation-box {
+    width: 120px;
+    height: 100px;
+    background: var(--color-white-base);
+    border: 3px solid var(--color-orange-base);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    font-weight: bold;
+    color: var(--text-dark);
+    cursor: default; /* Not clickable */
+    transition: var(--transition);
+    text-shadow: none;
+    pointer-events: none; /* Disable pointer events */
+    justify-self: start; /* Left align the box */
+}
+
+/* Hover effects removed since equation boxes are not clickable */
+
+.equation-box.highlighted {
+    background: var(--color-gold-light);
+    border-color: var(--color-gold-base);
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+    animation: pulse 2s infinite;
+}
+
+.equation-box.filled {
+    background: var(--color-correct-light);
+    border-color: var(--color-correct-base);
+    color: var(--color-white-base);
+}
+
+/* Feedback states for equation boxes */
+.equation-box.correct {
+    background: var(--color-correct-light);
+    border-color: var(--color-correct-base);
+    color: var(--color-white-base);
+    box-shadow: 0 0 10px rgba(33, 145, 80, 0.3);
+}
+
+.equation-box.wrong {
+    background: var(--color-wrong-light);
+    border-color: var(--color-wrong-base);
+    color: var(--color-white-base);
+    box-shadow: 0 0 10px rgba(255, 111, 97, 0.3);
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(241, 196, 15, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
+}
+
+/* ===== INTERACTIVE VISUAL CUES ===== */
+
+/* Option 1: Animated finger tap icon */
+.finger-tap-guide {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease-in-out;
+}
+
+.finger-tap-guide.active {
+    opacity: 1;
+    transform: scale(1);
+    animation: finger-tap-animation 1.2s ease-in-out;
+}
+
+.finger-tap-guide svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes finger-tap-animation {
+    0% { 
+        transform: scale(1) translateY(0px);
+        opacity: 1;
+    }
+    30% { 
+        transform: scale(0.9) translateY(5px);
+        opacity: 0.9;
+    }
+    60% { 
+        transform: scale(1.1) translateY(-2px);
+        opacity: 1;
+    }
+    100% { 
+        transform: scale(1) translateY(0px);
+        opacity: 1;
+    }
+}
+
+/* Option 2: Sequential pulsing effect */
+.number-bond-whole.pulse-guide,
+.number-bond-part.pulse-guide {
+    animation: pulse-guide-animation 1.8s ease-in-out;
+    position: relative;
+}
+
+.number-bond-whole.pulse-guide::before,
+.number-bond-part.pulse-guide::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: pulse-ring-animation 1.5s ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes pulse-guide-animation {
+    0% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+    100% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes pulse-ring-animation {
+    0% { 
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+    100% { 
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+/* ===== NUMBER BOND LAYOUT ===== */
+.number-bond-container {
+    grid-row: 2; /* Bottom 50% of feedback panel */
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns for whole and parts */
+    gap: var(--spacing-lg);
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    transition: var(--transition);
+    border-radius: var(--radius-md);
+}
+
+/* Highlighted state for number bond container when equation box is selected */
+.number-bond-container.highlighted {
+    background: rgba(241, 196, 15, 0.08); /* Subtle gold background */
+    border: 2px solid var(--color-gold-base);
+    box-shadow: 
+        0 0 15px rgba(241, 196, 15, 0.3),
+        0 0 30px rgba(241, 196, 15, 0.1),
+        inset 0 0 20px rgba(241, 196, 15, 0.05);
+    animation: number-bond-gentle-glow 3s ease-in-out infinite;
+}
+
+@keyframes number-bond-gentle-glow {
+    0% { 
+        box-shadow: 
+            0 0 15px rgba(241, 196, 15, 0.3),
+            0 0 30px rgba(241, 196, 15, 0.1),
+            inset 0 0 20px rgba(241, 196, 15, 0.05);
+        border-color: var(--color-gold-base);
+        background: rgba(241, 196, 15, 0.08);
+    }
+    50% { 
+        box-shadow: 
+            0 0 25px rgba(241, 196, 15, 0.5),
+            0 0 45px rgba(241, 196, 15, 0.2),
+            inset 0 0 30px rgba(241, 196, 15, 0.1);
+        border-color: var(--color-gold-light);
+        background: rgba(241, 196, 15, 0.12);
+    }
+    100% { 
+        box-shadow: 
+            0 0 15px rgba(241, 196, 15, 0.3),
+            0 0 30px rgba(241, 196, 15, 0.1),
+            inset 0 0 20px rgba(241, 196, 15, 0.05);
+        border-color: var(--color-gold-base);
+        background: rgba(241, 196, 15, 0.08);
+    }
+}
+
+/* SVG connecting lines are now handled in JavaScript */
+
+/* ===== NUMBER BOND CONNECTING LINES ANIMATION ===== */
+.bond-line {
+    animation: draw-in-line 2s ease-in-out forwards;
+    animation-delay: 1s; /* Start after elements are positioned */
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3)); /* Subtle glow for better visibility */
+}
+
+.bond-line-2 {
+    animation-delay: 1.5s; /* Stagger the second line animation */
+}
+
+/* Bond label animations */
+.bond-label {
+    animation: fade-in-label 1s ease-in-out forwards;
+    animation-delay: 2.5s; /* Start after lines are drawn */
+    font-family: 'Arial', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Better text readability */
+}
+
+.bond-label-2 {
+    animation-delay: 3s; /* Stagger the second label animation */
+}
+
+@keyframes draw-in-line {
+    0% {
+        stroke-dashoffset: 200;
+        opacity: 0.3;
+    }
+    20% {
+        opacity: 0.6;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 0.9;
+    }
+}
+
+@keyframes fade-in-label {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Ensure lines maintain subtle appearance after animation */
+.number-bond-lines .bond-line {
+    transition: opacity 0.2s ease;
+}
+
+/* ===== NUMBER BOND HOVER EFFECTS ===== */
+.number-bond-container:hover .bond-line {
+    stroke: rgba(255, 255, 255, 1);
+    strokeWidth: 4;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+    transition: all 0.3s ease-in-out;
+}
+
+.number-bond-container:hover .bond-label {
+    opacity: 1;
+    transform: scale(1.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Individual element hover effects */
+.number-bond-whole:hover ~ .number-bond-lines .bond-line {
+    stroke: rgba(255, 215, 0, 0.9); /* Golden color when hovering whole */
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+}
+
+.number-bond-whole:hover ~ .number-bond-lines .bond-label {
+    fill: rgba(255, 215, 0, 1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.number-bond-part:hover ~ .number-bond-lines .bond-line-1,
+.number-bond-part:first-of-type:hover ~ .number-bond-lines .bond-line-1 {
+    stroke: rgba(0, 255, 127, 0.9); /* Green color when hovering first part */
+    filter: drop-shadow(0 0 6px rgba(0, 255, 127, 0.5));
+}
+
+.number-bond-part:hover ~ .number-bond-lines .bond-label-1,
+.number-bond-part:first-of-type:hover ~ .number-bond-lines .bond-label-1 {
+    fill: rgba(0, 255, 127, 1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.number-bond-part:last-of-type:hover ~ .number-bond-lines .bond-line-2 {
+    stroke: rgba(255, 105, 180, 0.9); /* Pink color when hovering second part */
+    filter: drop-shadow(0 0 6px rgba(255, 105, 180, 0.5));
+}
+
+.number-bond-part:last-of-type:hover ~ .number-bond-lines .bond-label-2 {
+    fill: rgba(255, 105, 180, 1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.number-bond-whole {
+    width: 104px; /* 80px + 30% = 104px */
+    height: 104px; /* 80px + 30% = 104px */
+    background: var(--color-orange-base);
+    border: 3px solid var(--color-orange-dark);
+    border-radius: 50%;
+    display: flex !important; /* Ensure visibility */
+    visibility: visible !important; /* Explicitly set visibility */
+    opacity: 1 !important; /* Ensure full opacity */
+    align-items: center;
+    justify-content: center;
+    font-size: 42px; /* 32px + 30% = 42px */
+    font-weight: bold;
+    color: var(--color-white-base);
+    cursor: pointer;
+    transition: var(--transition);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    grid-column: 1; /* Left column */
+    justify-self: center;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.number-bond-whole:hover {
+    background: var(--color-orange-light);
+    transform: scale(1.1);
+.number-bond-parts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    grid-column: 2; /* Right column */
+    justify-self: center;
+}   align-items: center;
+}
+
+.number-bond-part {
+    width: 80px;
+    height: 80px;
+    background: var(--color-blue-base);
+    border: 3px solid var(--color-blue-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--color-white-base);
+    cursor: pointer;
+    transition: var(--transition);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.number-bond-part:hover {
+    transform: scale(1.1);
+}
+
+/* ===== FEEDBACK PANEL LAYOUT ===== */
+.feedback-panel {
+    grid-column: 3; /* Right column */
+    display: grid;
+    grid-template-rows: 50% 50%; /* top 50%, bottom 50% */
+    gap: var(--spacing-sm);
+    height: 100%;
+    padding: var(--spacing-sm);
+    background: #0f2b4e;
+    border: 2px solid #0066cc;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-light);
+}
+
+/* Top section of feedback panel */
+.feedback-panel .feedback-bottom {
+    grid-row: 1; /* Top 50% */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    color: var(--color-white-base);
+    font-size: 48px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Correct feedback styling */
+.feedback-panel .feedback-bottom.feedback-correct {
+    background: rgba(33, 145, 80, 0.2);
+    border: 2px solid var(--color-correct-base);
+    color: var(--color-correct-light);
+    box-shadow: 0 0 10px rgba(33, 145, 80, 0.3);
+}
+
+/* Wrong feedback styling */
+.feedback-panel .feedback-bottom.feedback-wrong {
+    background: rgba(255, 111, 97, 0.2);
+    border: 2px solid var(--color-wrong-base);
+    color: var(--color-wrong-light);
+    box-shadow: 0 0 10px rgba(255, 111, 97, 0.3);
+}
+
+/* ===== INSTRUCTION CONTAINER ===== */
+.instruction-container {
+    grid-row: 3; /* Row 3 */
+    grid-column: 1;
+    height: var(--instruction-height); /* 10% */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-sm);
+}
+
+.instruction-box {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--color-blue-base);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    color: var(--color-white-base);
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    max-width: 800px;
+}
+
+/* ===== FOOTER LAYOUT ===== */
+.footer {
+    grid-row: 4; /* Row 4 */
+    grid-column: 1;
+    height: var(--footer-height); /* 15% */
+    background: rgba(53, 64, 87, 0.7);
+    display: grid;
+    grid-template-columns: 9% 82% 9%;
+    align-items: center;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    /* MODIFIED: Remove rounded edges from bottom of footer */
+    border-radius: 0;
+    border: none; /* No border by default */
+    /* MODIFIED: Bottom align the footer */
+    align-self: end;
+}
+
+/* Ensure footer sits above animated overlays and is clickable */
+.footer {
+    position: relative;
+    z-index: 10001; /* above furniture-overlay (9999) and animated brush (10000) */
+}
+
+/* Make sure navigation buttons inside footer receive pointer events */
+.footer .nav-btn {
+    pointer-events: auto;
+}
+
+/* Footer center with transparent background */
+.footer .footer-center {
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+}
+
+/* Remove background and border for start and end screens */
+.footer.start-end-footer .footer-center {
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Center start button in footer for start/end screens */
+.footer.start-end-footer {
+    grid-template-columns: 1fr;
+    justify-items: center;
+}
+
+.footer.start-end-footer .footer-left,
+.footer.start-end-footer .footer-right {
+    display: none;
+}
+
+.footer-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.footer-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.instruction-text {
+    color: white;
+    text-align: center;
+    font-size: 41.472px;
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 24px;
+    display: inline-block;
+    min-width: 300px;
+}
+
+/* ===== NAVIGATION BUTTONS ===== */
+.nav-btn {
+    width: 160px;
+    height: 80px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+.nav-btn:hover {
+    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    transform: scale(1.05);
+}
+
+.nav-btn:active {
+    transform: scale(0.95);
+}
+
+.nav-btn:disabled {
+    /* This rule won't apply since we don't use disabled attribute anymore */
+    background: #666 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+.nav-btn.disabled {
+    background: #666 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+.nav-btn.enabled {
+    background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.nav-btn.enabled:hover {
+    background: linear-gradient(135deg, #FFA500, #FF8C00) !important;
+    transform: scale(1.05) !important;
+}
+
+.nav-btn.enabled:active {
+    transform: scale(0.95) !important;
+}
+
+.nav-btn.glow {
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+}
+
+/* ===== PROGRESS DOTS ===== */
+.progress-dots {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: var(--transition);
+}
+
+.progress-dot.active {
+    background: var(--color-orange-base);
+    box-shadow: 0 0 10px rgba(255, 127, 63, 0.5);
+}
+
+/* ===== LOADING SCREEN ===== */
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: transparent;
+}
+
+.loading-text {
+    color: var(--color-white-base);
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 960px) {
+    .responsive-wrapper {
+        font-size: 0.8em;
+    }
+    
+    .header-instruction {
+        font-size: 36px;
+    }
+    
+    .equation-text {
+        font-size: 20px;
+    }
+    
+    .instruction-box {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 1921px) {
+    .responsive-wrapper {
+        font-size: 1.2em;
+    }
+    
+    .header-instruction {
+        font-size: 55px;
+    }
+    
+    .equation-text {
+        font-size: 28px;
+    }
+    
+    .instruction-box {
+        font-size: 28px;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== TOUCH DEVICE OPTIMIZATIONS ===== */
+.touch-device .nav-btn {
+    min-height: 60px;
+    min-width: 120px;
+}
+
+.touch-device .equation-box {
+    min-height: 50px;
+    min-width: 70px;
+}
+
+.touch-device .number-bond-whole,
+.touch-device .number-bond-part {
+    min-height: 91px; /* 70px + 30% = 91px */
+    min-width: 91px; /* 70px + 30% = 91px */
+}
