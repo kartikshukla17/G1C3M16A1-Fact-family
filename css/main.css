@@ -235,6 +235,7 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: var(--spacing-lg);
 }
 
 .equation-number {
@@ -349,7 +350,197 @@ body {
     padding: var(--spacing-md);
 }
 
-/* SVG connecting lines are now handled in JavaScript */
+/* ===== NUMBER BOND SVG LINES ===== */
+.number-bond-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1; /* Above background, below circles */
+    overflow: visible;
+}
+
+.bond-line {
+    stroke: #4ECDC4; /* Improved contrast - bright teal */
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    opacity: 1;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: drawLine 1.5s ease-out forwards;
+}
+
+.bond-line.draw-in {
+    animation: drawLine 1.5s ease-out forwards;
+}
+
+.bond-line.fade-in {
+    animation: fadeInLine 0.8s ease-out forwards;
+}
+
+/* Enhanced visibility for highlighted state */
+.number-bond-container.highlighted .bond-line {
+    stroke: #FFD700; /* Gold color for highlighted state */
+    stroke-width: 5;
+    filter: drop-shadow(0 3px 6px rgba(255, 215, 0, 0.4));
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Individual line styling for better identification */
+.bond-line-1 {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 0;
+}
+
+.bond-line-2 {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 0;
+}
+
+/* Animation keyframes */
+@keyframes drawLine {
+    from {
+        stroke-dashoffset: 200;
+        opacity: 0.3;
+    }
+    to {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInLine {
+    from {
+        opacity: 0;
+        stroke-width: 2;
+    }
+    to {
+        opacity: 1;
+        stroke-width: 4;
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        stroke: #FFD700;
+        filter: drop-shadow(0 3px 6px rgba(255, 215, 0, 0.4));
+    }
+    50% {
+        stroke: #FFF700;
+        filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.6));
+    }
+}
+
+/* Responsive adjustments for bond lines */
+@media (max-width: 1200px) {
+    .bond-line {
+        stroke-width: 3;
+    }
+    
+    .number-bond-container.highlighted .bond-line {
+        stroke-width: 4;
+    }
+    
+    .number-bond-whole {
+        width: 90px;
+        height: 90px;
+        font-size: 36px;
+    }
+    
+    .number-bond-part {
+        width: 68px;
+        height: 68px;
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 960px) {
+    .bond-line {
+        stroke-width: 2.5;
+    }
+    
+    .number-bond-container.highlighted .bond-line {
+        stroke-width: 3.5;
+    }
+    
+    .number-bond-whole {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+    
+    .number-bond-part {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .bond-line {
+        stroke-width: 2;
+    }
+    
+    .number-bond-container.highlighted .bond-line {
+        stroke-width: 3;
+    }
+    
+    .number-bond-container {
+        gap: var(--spacing-md);
+        padding: var(--spacing-sm);
+    }
+    
+    .number-bond-whole {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+    }
+    
+    .number-bond-part {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+    }
+    
+    .number-bond-parts {
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .bond-line {
+        stroke-width: 1.5;
+    }
+    
+    .number-bond-container.highlighted .bond-line {
+        stroke-width: 2.5;
+    }
+    
+    .number-bond-container {
+        gap: var(--spacing-sm);
+        padding: var(--spacing-xs);
+    }
+    
+    .number-bond-whole {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+    
+    .number-bond-part {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+    
+    .number-bond-parts {
+        gap: var(--spacing-sm);
+    }
+}
 
 .number-bond-whole {
     width: 104px; /* 80px + 30% = 104px */
@@ -494,6 +685,71 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     pointer-events: none;
     max-width: 800px;
+}
+
+/* ===== START SCREEN STYLES ===== */
+
+/* Hero content styling for start screen */
+.hero-content {
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    line-height: 1.4;
+    padding: var(--spacing-xl);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Footer styling for start screen */
+.footer.start-end-footer {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    background: rgba(53, 64, 87, 0.7);
+}
+
+.footer.start-end-footer .footer-left,
+.footer.start-end-footer .footer-right {
+    display: none;
+}
+
+.footer.start-end-footer .footer-center {
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Start button styling - larger dimensions for clear call-to-action */
+.nav-btn.start-btn {
+    width: 200px;
+    height: 100px;
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    pointer-events: auto;
+}
+
+.nav-btn.start-btn:hover {
+    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    transform: scale(1.08);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.nav-btn.start-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== FOOTER LAYOUT ===== */

@@ -8,6 +8,7 @@
 // App State
 let appState = {
     currentLanguage: 'en',
+    screen: 'start',
     currentProblem: null,
     problemIndex: 0,
     currentEquation: null,
@@ -24,13 +25,16 @@ let appState = {
 // App Actions
 const appActions = {
     /**
-     * Start the activity
+     * Start the activity - Transition from start screen to game screen
      */
     startActivity: () => {
         console.log('Starting Fact Family activity');
         if (window.sound && window.sound.playClickSound) {
             window.sound.playClickSound();
         }
+        
+        // Transition to game screen
+        appState.screen = 'game';
         
         const problems = utils.getAllProblems();
         console.log('Problems found:', problems.length);
@@ -423,8 +427,8 @@ function initializeApp() {
         window.sound.initializeSoundSystem();
     }
     
-    // Start the activity automatically
-    appActions.startActivity();
+    // Render the app (will show start screen by default)
+    renderApp();
     
     // Set up responsive scaling system
     utils.initializeResponsiveScaling();

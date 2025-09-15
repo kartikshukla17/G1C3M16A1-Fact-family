@@ -344,21 +344,20 @@ function NumberBond(props) {
                 width: '100%', 
                 height: '100%', 
                 pointerEvents: 'none',
-                zIndex: 1
+                zIndex: 1.5,  // Above background (1), below circles (2)
+                overflow: 'visible' // Ensure lines are not clipped
             }
         },
-            // Line from whole number to first part
+            // Line from whole number to first part - improved positioning
             React.createElement('line', {
                 className: 'bond-line bond-line-1',
-                x1: 'calc(25% + 52px)', // Right edge of whole circle (responsive)
+                x1: 'calc(25% + 52px)', // Right edge of whole circle (104px/2 = 52px radius)
                 y1: '50%', // Center of container height
-                x2: 'calc(75% - 40px)', // Left edge of first part circle (responsive)
-                y2: 'calc(50% - 50px)', // Top part position (responsive)
-                stroke: 'rgba(255, 255, 255, 0.8)',
-                strokeWidth: '3',
+                x2: 'calc(75% - 39px)', // Left edge of first part circle (78px/2 = 39px radius)
+                y2: 'calc(50% - 58px)', // Top part position (39px radius + 19px gap)
                 strokeLinecap: 'round',
                 strokeDasharray: '200',
-                strokeDashoffset: '200'
+                strokeDashoffset: '0'  // Ensures the line renders completely without any gaps
             }),
             // Label for first connection (text removed)
             React.createElement('text', {
@@ -372,18 +371,16 @@ function NumberBond(props) {
                 dominantBaseline: 'middle',
                 style: { opacity: 0 }
             }, ''),
-            // Line from whole number to second part
+            // Line from whole number to second part - improved positioning
             React.createElement('line', {
                 className: 'bond-line bond-line-2',
-                x1: 'calc(25% + 52px)', // Right edge of whole circle (responsive)
+                x1: 'calc(25% + 52px)', // Right edge of whole circle (104px/2 = 52px radius)
                 y1: '50%', // Center of container height
-                x2: 'calc(75% - 40px)', // Left edge of second part circle (responsive)
-                y2: 'calc(50% + 50px)', // Bottom part position (responsive)
-                stroke: 'rgba(255, 255, 255, 0.8)',
-                strokeWidth: '3',
+                x2: 'calc(75% - 39px)', // Left edge of second part circle (78px/2 = 39px radius)
+                y2: 'calc(50% + 58px)', // Bottom part position (39px radius + 19px gap)
                 strokeLinecap: 'round',
                 strokeDasharray: '200',
-                strokeDashoffset: '200'
+                strokeDashoffset: '0'  // Ensures the line renders completely without any gaps
             }),
             // Label for second connection (text removed)
             React.createElement('text', {
@@ -568,14 +565,65 @@ function FactFamilyScreen(props) {
 }
 
 /**
- * Main App component that orchestrates all other components
+ * StartScreen component - Entry point for the application
+ * @param {object} props - Component properties
+ * @returns {HTMLElement} Start screen element
+ */
+function StartScreen(props) {
+    const { onStart } = props;
+    const currentLang = safeGetCurrentLanguage();
+    
+    // Get localized text
+    const startTitle = safeGetText('content-ui.headers.start', {}, currentLang);
+    const heroText = safeGetText('content-ui.instructions.hero', {}, currentLang);
+    const startButtonText = safeGetText('standard-ui.buttons.start', {}, currentLang);
+
+    // Create header
+    const headerElement = React.createElement('header', { className: 'header' },
+        React.createElement('div', { className: 'header-instruction' }, startTitle)
+    );
+
+    // Create main content area with hero text
+    const mainElement = React.createElement('main', { className: 'main-content' },
+        React.createElement('div', { className: 'hero-content' }, heroText)
+    );
+
+    // Create start button
+    const startButton = React.createElement('button', {
+        className: 'nav-btn start-btn',
+        onClick: onStart,
+        'aria-label': startButtonText
+    }, startButtonText);
+
+    // Create footer with start button
+    const footerElement = React.createElement('footer', { className: 'footer start-end-footer' },
+        startButton
+    );
+
+    // Return complete start screen
+    return React.createElement('div', { className: 'start-screen' },
+        headerElement,
+        mainElement,
+        footerElement
+    );
+}
+
+/**
+ * Main App component - Acts as view router
  * @param {object} props - Component properties
  * @returns {HTMLElement} Main app element
  */
 function App(props) {
     const { state, actions } = props;
 
-    // Show fact family screen
+    // Check screen state for routing
+    if (state.screen === 'start') {
+        return StartScreen({
+            onStart: actions.startActivity
+        });
+    }
+
+    // Show fact family screen (game screen)
     if (state.currentProblem) {
         const problemData = safeUtils.getProblemById(state.currentProblem);
         if (problemData) {
@@ -612,6 +660,7 @@ if (typeof module !== 'undefined' && module.exports) {
         FeedbackPanel,
         Footer,
         FactFamilyScreen,
+        StartScreen,
         App
     };
 }

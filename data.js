@@ -22,12 +22,14 @@ const appData = {
         "content-ui": {
             // ✅ MANDATORY: Applet-specific content
             headers: {
-                main: "Complete the fact family using the number bond."
+                main: "Complete the fact family using the number bond.",
+                start: "Fact Family - Number Bonds"
             },
             instructions: {
                 start: "Tap the correct number in the number bond.",
                 equation: "Tap the numbers in the number bond to fill the highlighted box.",
-                continue: "Tap ▶ to continue"
+                continue: "Tap ▶ to continue",
+                hero: "Get ready to explore number bonds! Learn how numbers work together in fact families through interactive exercises."
             },
             feedback: {
                 correct: "Well done! {equation} Let's try another one.",
@@ -85,12 +87,14 @@ const appData = {
         },
         "content-ui": {
             headers: {
-                main: "Completa la familia de hechos usando el vínculo numérico."
+                main: "Completa la familia de hechos usando el vínculo numérico.",
+                start: "Familia de Hechos - Vínculos Numéricos"
             },
             instructions: {
                 start: "Toca el número correcto en el vínculo numérico.",
                 equation: "Toca los números en el vínculo numérico para llenar la caja resaltada.",
-                continue: "Toca ▶ para continuar"
+                continue: "Toca ▶ para continuar",
+                hero: "¡Prepárate para explorar vínculos numéricos! Aprende cómo los números trabajan juntos en familias de hechos a través de ejercicios interactivos."
             },
             feedback: {
                 correct: "¡Bien hecho! {equation} Probemos con otro.",
@@ -148,12 +152,14 @@ const appData = {
         },
         "content-ui": {
             headers: {
-                main: "Lengkapi keluarga fakta menggunakan ikatan angka."
+                main: "Lengkapi keluarga fakta menggunakan ikatan angka.",
+                start: "Keluarga Fakta - Ikatan Angka"
             },
             instructions: {
                 start: "Ketuk angka yang benar dalam ikatan angka.",
                 equation: "Ketuk angka-angka dalam ikatan angka untuk mengisi kotak yang disorot.",
-                continue: "Ketuk ▶ untuk melanjutkan"
+                continue: "Ketuk ▶ untuk melanjutkan",
+                hero: "Bersiaplah untuk menjelajahi ikatan angka! Pelajari bagaimana angka bekerja bersama dalam keluarga fakta melalui latihan interaktif."
             },
             feedback: {
                 correct: "Bagus! {equation} Mari coba yang lain.",
