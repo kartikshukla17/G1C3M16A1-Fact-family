@@ -194,47 +194,6 @@ body {
     gap: 4px;
     box-shadow: var(--shadow-light);
     height: 100%;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-}
-
-/* Glowing animation effect for fact panel when equation box is highlighted */
-.fact-panel.equation-highlighted {
-    background: rgba(15, 43, 78, 0.95); /* Slightly brighter background */
-    border: 2px solid var(--color-gold-base);
-    box-shadow: 
-        var(--shadow-light),
-        0 0 20px rgba(241, 196, 15, 0.4),
-        0 0 40px rgba(241, 196, 15, 0.2),
-        inset 0 0 30px rgba(241, 196, 15, 0.1);
-    animation: fact-panel-glow 2.5s ease-in-out infinite;
-}
-
-@keyframes fact-panel-glow {
-    0% { 
-        border-color: var(--color-gold-base);
-        box-shadow: 
-            var(--shadow-light),
-            0 0 20px rgba(241, 196, 15, 0.4),
-            0 0 40px rgba(241, 196, 15, 0.2),
-            inset 0 0 30px rgba(241, 196, 15, 0.1);
-    }
-    50% { 
-        border-color: var(--color-gold-light);
-        box-shadow: 
-            var(--shadow-light),
-            0 0 30px rgba(241, 196, 15, 0.6),
-            0 0 60px rgba(241, 196, 15, 0.3),
-            inset 0 0 40px rgba(241, 196, 15, 0.15);
-    }
-    100% { 
-        border-color: var(--color-gold-base);
-        box-shadow: 
-            var(--shadow-light),
-            0 0 20px rgba(241, 196, 15, 0.4),
-            0 0 40px rgba(241, 196, 15, 0.2),
-            inset 0 0 30px rgba(241, 196, 15, 0.1);
-    }
 }
 
 .fact-panel-title {
@@ -346,99 +305,33 @@ body {
     100% { box-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
 }
 
-/* ===== INTERACTIVE VISUAL CUES ===== */
-
-/* Option 1: Animated finger tap icon */
-.finger-tap-guide {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.3s ease-in-out;
-}
-
-.finger-tap-guide.active {
-    opacity: 1;
-    transform: scale(1);
-    animation: finger-tap-animation 1.2s ease-in-out;
-}
-
-.finger-tap-guide svg {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-@keyframes finger-tap-animation {
-    0% { 
-        transform: scale(1) translateY(0px);
-        opacity: 1;
-    }
-    30% { 
-        transform: scale(0.9) translateY(5px);
-        opacity: 0.9;
-    }
-    60% { 
-        transform: scale(1.1) translateY(-2px);
-        opacity: 1;
-    }
-    100% { 
-        transform: scale(1) translateY(0px);
-        opacity: 1;
-    }
-}
-
-/* Option 2: Sequential pulsing effect */
+/* Pulse animation for number bond elements when focused */
 .number-bond-whole.pulse-guide,
 .number-bond-part.pulse-guide {
-    animation: pulse-guide-animation 1.8s ease-in-out;
-    position: relative;
+    animation: pulse-guide 1.8s ease-in-out;
+    z-index: 10;
 }
 
-.number-bond-whole.pulse-guide::before,
-.number-bond-part.pulse-guide::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    border: 3px solid rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    animation: pulse-ring-animation 1.5s ease-in-out;
-    pointer-events: none;
-}
-
-@keyframes pulse-guide-animation {
+@keyframes pulse-guide {
     0% { 
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
     }
-    50% { 
+    25% { 
         transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-    }
-    100% { 
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    }
-}
-
-@keyframes pulse-ring-animation {
-    0% { 
-        transform: scale(0.8);
-        opacity: 1;
+        box-shadow: 0 0 0 10px rgba(255, 215, 0, 0.5);
     }
     50% { 
         transform: scale(1.1);
-        opacity: 0.5;
+        box-shadow: 0 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    75% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 215, 0, 0.5);
     }
     100% { 
-        transform: scale(1.3);
-        opacity: 0;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
     }
 }
 
@@ -454,154 +347,9 @@ body {
     align-items: center;
     justify-content: center;
     padding: var(--spacing-md);
-    transition: var(--transition);
-    border-radius: var(--radius-md);
-}
-
-/* Highlighted state for number bond container when equation box is selected */
-.number-bond-container.highlighted {
-    background: rgba(241, 196, 15, 0.08); /* Subtle gold background */
-    border: 2px solid var(--color-gold-base);
-    box-shadow: 
-        0 0 15px rgba(241, 196, 15, 0.3),
-        0 0 30px rgba(241, 196, 15, 0.1),
-        inset 0 0 20px rgba(241, 196, 15, 0.05);
-    animation: number-bond-gentle-glow 3s ease-in-out infinite;
-}
-
-@keyframes number-bond-gentle-glow {
-    0% { 
-        box-shadow: 
-            0 0 15px rgba(241, 196, 15, 0.3),
-            0 0 30px rgba(241, 196, 15, 0.1),
-            inset 0 0 20px rgba(241, 196, 15, 0.05);
-        border-color: var(--color-gold-base);
-        background: rgba(241, 196, 15, 0.08);
-    }
-    50% { 
-        box-shadow: 
-            0 0 25px rgba(241, 196, 15, 0.5),
-            0 0 45px rgba(241, 196, 15, 0.2),
-            inset 0 0 30px rgba(241, 196, 15, 0.1);
-        border-color: var(--color-gold-light);
-        background: rgba(241, 196, 15, 0.12);
-    }
-    100% { 
-        box-shadow: 
-            0 0 15px rgba(241, 196, 15, 0.3),
-            0 0 30px rgba(241, 196, 15, 0.1),
-            inset 0 0 20px rgba(241, 196, 15, 0.05);
-        border-color: var(--color-gold-base);
-        background: rgba(241, 196, 15, 0.08);
-    }
 }
 
 /* SVG connecting lines are now handled in JavaScript */
-
-/* ===== NUMBER BOND CONNECTING LINES ANIMATION ===== */
-.bond-line {
-    animation: draw-in-line 2s ease-in-out forwards;
-    animation-delay: 1s; /* Start after elements are positioned */
-    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3)); /* Subtle glow for better visibility */
-}
-
-.bond-line-2 {
-    animation-delay: 1.5s; /* Stagger the second line animation */
-}
-
-/* Bond label animations */
-.bond-label {
-    animation: fade-in-label 1s ease-in-out forwards;
-    animation-delay: 2.5s; /* Start after lines are drawn */
-    font-family: 'Arial', sans-serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Better text readability */
-}
-
-.bond-label-2 {
-    animation-delay: 3s; /* Stagger the second label animation */
-}
-
-@keyframes draw-in-line {
-    0% {
-        stroke-dashoffset: 200;
-        opacity: 0.3;
-    }
-    20% {
-        opacity: 0.6;
-    }
-    100% {
-        stroke-dashoffset: 0;
-        opacity: 0.9;
-    }
-}
-
-@keyframes fade-in-label {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    50% {
-        opacity: 0.7;
-        transform: scale(1.05);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Ensure lines maintain subtle appearance after animation */
-.number-bond-lines .bond-line {
-    transition: opacity 0.2s ease;
-}
-
-/* ===== NUMBER BOND HOVER EFFECTS ===== */
-.number-bond-container:hover .bond-line {
-    stroke: rgba(255, 255, 255, 1);
-    strokeWidth: 4;
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
-    transition: all 0.3s ease-in-out;
-}
-
-.number-bond-container:hover .bond-label {
-    opacity: 1;
-    transform: scale(1.1);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    transition: all 0.3s ease-in-out;
-}
-
-/* Individual element hover effects */
-.number-bond-whole:hover ~ .number-bond-lines .bond-line {
-    stroke: rgba(255, 215, 0, 0.9); /* Golden color when hovering whole */
-    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
-}
-
-.number-bond-whole:hover ~ .number-bond-lines .bond-label {
-    fill: rgba(255, 215, 0, 1);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-}
-
-.number-bond-part:hover ~ .number-bond-lines .bond-line-1,
-.number-bond-part:first-of-type:hover ~ .number-bond-lines .bond-line-1 {
-    stroke: rgba(0, 255, 127, 0.9); /* Green color when hovering first part */
-    filter: drop-shadow(0 0 6px rgba(0, 255, 127, 0.5));
-}
-
-.number-bond-part:hover ~ .number-bond-lines .bond-label-1,
-.number-bond-part:first-of-type:hover ~ .number-bond-lines .bond-label-1 {
-    fill: rgba(0, 255, 127, 1);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-}
-
-.number-bond-part:last-of-type:hover ~ .number-bond-lines .bond-line-2 {
-    stroke: rgba(255, 105, 180, 0.9); /* Pink color when hovering second part */
-    filter: drop-shadow(0 0 6px rgba(255, 105, 180, 0.5));
-}
-
-.number-bond-part:last-of-type:hover ~ .number-bond-lines .bond-label-2 {
-    fill: rgba(255, 105, 180, 1);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-}
 
 .number-bond-whole {
     width: 104px; /* 80px + 30% = 104px */
@@ -609,9 +357,7 @@ body {
     background: var(--color-orange-base);
     border: 3px solid var(--color-orange-dark);
     border-radius: 50%;
-    display: flex !important; /* Ensure visibility */
-    visibility: visible !important; /* Explicitly set visibility */
-    opacity: 1 !important; /* Ensure full opacity */
+    display: flex;
     align-items: center;
     justify-content: center;
     font-size: 42px; /* 32px + 30% = 42px */
@@ -625,31 +371,31 @@ body {
     justify-self: center;
     position: relative;
     z-index: 2;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .number-bond-whole:hover {
     background: var(--color-orange-light);
     transform: scale(1.1);
+}
+
 .number-bond-parts {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
     grid-column: 2; /* Right column */
     justify-self: center;
-}   align-items: center;
+   align-items: center;
 }
 
 .number-bond-part {
-    width: 80px;
-    height: 80px;
-    background: var(--color-blue-base);
-    border: 3px solid var(--color-blue-dark);
+    width: 78px; /* 60px + 30% = 78px */
+    height: 78px; /* 60px + 30% = 78px */
+    border: 3px solid;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;
+    font-size: 31px; /* 24px + 30% = 31px */
     font-weight: bold;
     color: var(--color-white-base);
     cursor: pointer;
@@ -658,11 +404,25 @@ body {
     pointer-events: auto;
     position: relative;
     z-index: 2;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .number-bond-part:hover {
     transform: scale(1.1);
+}
+
+.number-bond-part.blue {
+    background: var(--color-blue-base);
+    border-color: var(--color-blue-dark);
+}
+
+.number-bond-part.purple {
+    background: var(--color-purple-base);
+    border-color: var(--color-purple-dark);
+}
+
+.number-bond-part.pink {
+    background: var(--color-pink-base);
+    border-color: var(--color-pink-dark);
 }
 
 /* ===== FEEDBACK PANEL LAYOUT ===== */
@@ -925,6 +685,53 @@ body {
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     pointer-events: none;
+}
+
+/* ===== FINGER TAP ANIMATION STYLES ===== */
+.finger-tap-guide {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease-out;
+}
+
+.finger-tap-guide.active {
+    opacity: 1;
+    transform: translateY(0);
+    animation: finger-tap-bounce 1.2s ease-in-out;
+}
+
+@keyframes finger-tap-bounce {
+    0% { 
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    30% { 
+        transform: translateY(-10px) scale(1.1);
+        opacity: 0.9;
+    }
+    60% { 
+        transform: translateY(5px) scale(0.95);
+        opacity: 0.8;
+    }
+    80% { 
+        transform: translateY(-3px) scale(1.05);
+        opacity: 0.6;
+    }
+    100% { 
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+}
+
+.finger-tap-guide svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

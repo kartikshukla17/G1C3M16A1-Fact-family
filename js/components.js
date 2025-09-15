@@ -53,7 +53,7 @@ function Header(props) {
  * @returns {HTMLElement} Fact panel element
  */
 function FactPanel(props) {
-    const { title, equations, onNumberSelect, currentEquation, filledNumbers, problemData } = props;
+    const { title, equations, onNumberSelect, currentEquation, filledNumbers, problemData, onEquationFocus } = props;
     const currentLang = safeGetCurrentLanguage();
     
     // Check if any equation box is highlighted
@@ -107,14 +107,29 @@ function FactPanel(props) {
             }
         }
 
-
         return React.createElement('div', { 
             key: index,
             className: 'equation-row'
         },
             React.createElement('div', { className: 'equation-text' }, equationText),
             React.createElement('div', { 
-                className: `equation-box ${isHighlighted ? 'highlighted' : ''} ${isFilled ? 'filled' : ''} ${feedbackClass}`
+                className: `equation-box ${isHighlighted ? 'highlighted' : ''} ${isFilled ? 'filled' : ''} ${feedbackClass}`,
+                tabIndex: isFilled ? -1 : 0, // Make focusable only if not filled
+                onFocus: () => {
+                    if (!isFilled && onEquationFocus) {
+                        onEquationFocus(equation);
+                    }
+                },
+                onBlur: () => {
+                    if (onEquationFocus) {
+                        onEquationFocus(null); // Clear focus
+                    }
+                },
+                onClick: () => {
+                    if (!isFilled && onEquationFocus) {
+                        onEquationFocus(equation);
+                    }
+                }
             }, equation.answer || '')
         );
     });
@@ -498,7 +513,8 @@ function FactFamilyScreen(props) {
         progressDots,
         instructionText,
         feedbackText,
-        feedbackState
+        feedbackState,
+        onEquationFocus
     } = props;
     
     const currentLang = safeGetCurrentLanguage();
@@ -514,7 +530,8 @@ function FactFamilyScreen(props) {
                 onNumberSelect: onNumberSelect,
                 currentEquation: currentEquation,
                 filledNumbers: filledNumbers,
-                problemData: problemData
+                problemData: problemData,
+                onEquationFocus: onEquationFocus
             }),
             FactPanel({
                 title: subtractionTitle,
@@ -522,7 +539,8 @@ function FactFamilyScreen(props) {
                 onNumberSelect: onNumberSelect,
                 currentEquation: currentEquation,
                 filledNumbers: filledNumbers,
-                problemData: problemData
+                problemData: problemData,
+                onEquationFocus: onEquationFocus
             }),
             FeedbackPanel({
                 numberBond: {
@@ -573,7 +591,8 @@ function App(props) {
                 progressDots: state.progressDots,
                 instructionText: state.instructionText,
                 feedbackText: state.feedbackText,
-                feedbackState: state.feedbackState
+                feedbackState: state.feedbackState,
+                onEquationFocus: actions.onEquationFocus
             });
         }
     }

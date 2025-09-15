@@ -359,6 +359,26 @@ const appActions = {
         utils.setCurrentLanguage(newLang);
         appState.currentLanguage = newLang;
         renderApp();
+    },
+
+    /**
+     * Handle equation focus for targeted highlighting
+     * @param {object} equation - The focused equation or null to clear focus
+     */
+    onEquationFocus: (equation) => {
+        console.log('🎯 Equation focus changed:', equation);
+        
+        if (equation) {
+            // Set the focused equation as current for highlighting
+            appState.currentEquation = equation;
+        } else {
+            // Clear focus - only if no equation is actually selected
+            if (appState.currentEquation && !appState.currentEquation.filled) {
+                appState.currentEquation = null;
+            }
+        }
+        
+        renderApp();
     }
 };
 
